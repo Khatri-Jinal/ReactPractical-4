@@ -1,15 +1,11 @@
-import DateAndDay, { formattedDate } from "../DateAndDay/DateAndDay";
-import TaskList, { TaskProps } from "../TaskList/TaskList";
 import "./ToDo.css";
 import Input from "../Input/Input";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
+import DateAndDay, { formattedDate } from "../DateAndDay/DateAndDay";
+import TaskList, { TaskProps } from "../TaskList/TaskList";
 
 function ToDo() {
   const [inputShow, setInputShow] = useState(false);
-  const [valid, setValid] = useState(false);
-  const [enteredTask, setEnteredTask] = useState("");
-  const [touched, setTouched] = useState(false);
   const [tasks, setTasks] = useState<TaskProps[]>(() => {
     let list = localStorage.getItem("tasks");
     let newdate = String(formattedDate);
@@ -24,24 +20,16 @@ function ToDo() {
     }
   });
 
-  const activeHandler = (id: string) => {
-    const index = tasks.findIndex((task) => task.id === id);
-    const updatedTasks = [...tasks];
-    updatedTasks[index].complete = !updatedTasks[index].complete;
-    setTasks(updatedTasks);
-  };
-
   const clickHandler = () => {
     setInputShow((prev) => !prev);
   };
 
+  const toggleHandler = (show: boolean) => {
+    setInputShow(show);
+  };
+
   const input = inputShow && (
-    <Input
-      checkValidity={checkValidity}
-      enteredTask={enteredTask}
-      valid={valid}
-      touched={touched}
-    />
+    <Input setTasks={setTasks} toggleHandler={toggleHandler} />
   );
 
   const btn = !inputShow && (
@@ -50,49 +38,18 @@ function ToDo() {
     </button>
   );
 
-  function checkValidity(e: ChangeEvent<HTMLInputElement>) {
-    setEnteredTask(e.target.value);
-  }
-
-  const submitHandler = useCallback(
-    (event: KeyboardEvent) => {
-      event.preventDefault();
-      setTouched(true);
-      if (enteredTask === "") {
-        setValid(false);
-      } else {
-        setValid(true);
-        const newtitle = enteredTask;
-        const newComplete = false;
-        const obj = {
-          id: uuidv4(),
-          title: newtitle,
-          complete: newComplete,
+  const activeHandler = (id: string) => {
+    const updatedTasks = tasks.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          complete: !todo.complete,
         };
-        setTasks([...tasks, obj]);
-        localStorage.setItem("setdate", formattedDate.toString());
-        setEnteredTask("");
       }
-    },
-    [enteredTask, tasks]
-  );
-
-  useEffect(() => {
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setInputShow(false);
-      }
-      if (event.key === "Enter") {
-        submitHandler(event);
-      }
-    };
-
-    document.addEventListener("keydown", handleKey);
-
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [submitHandler]);
+      return todo;
+    });
+    setTasks(updatedTasks);
+  };
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));

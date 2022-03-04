@@ -11,7 +11,6 @@ interface TasksProps {
 function Task({ id, title, complete, activeHandler }: TasksProps) {
   return (
     <li
-      key={id}
       className={complete ? "task complete" : "task"}
       onClick={() => activeHandler(id)}
     >
