@@ -4,7 +4,6 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
-  FormEventHandler,
 } from "react";
 import "./Input.css";
 import { v4 as uuidv4 } from "uuid";
@@ -55,25 +54,6 @@ function Input({ setTasks, toggleHandler }: InputProps) {
       if (event.key === "Escape") {
         toggleHandler(false);
       }
-      // if (event.key === "Enter") {
-      //   event.preventDefault();
-      //   setTouched(true);
-      //   if (enteredTask === "") {
-      //     setValid(false);
-      //   } else {
-      //     setValid(true);
-      //     const newtitle = enteredTask;
-      //     const newComplete = false;
-      //     const obj = {
-      //       id: uuidv4(),
-      //       title: newtitle,
-      //       complete: newComplete,
-      //     };
-      //     setTasks((tasks) => [...tasks, obj]);
-      //     localStorage.setItem("setdate", formattedDate.toString());
-      //     setEnteredTask("");
-      //   }
-      // }
     };
 
     document.addEventListener("keydown", handleKey);
@@ -88,6 +68,7 @@ function Input({ setTasks, toggleHandler }: InputProps) {
       <form onSubmit={submitHandler}>
         <div className="input-block">
           <input
+            autoFocus
             className="task-input"
             type="text"
             value={enteredTask}
