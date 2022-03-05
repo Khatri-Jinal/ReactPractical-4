@@ -1,5 +1,5 @@
 .task-list {
   margin-bottom: 30px;
-  max-height: 357px;
+  height: 357px;
   overflow-y: auto;
 }

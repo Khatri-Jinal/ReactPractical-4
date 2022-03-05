@@ -1,6 +1,7 @@
 .to-do {
   position: relative;
   padding: 32px;
+  min-height: 510px;
 }
 .add-btn {
   background-color: #4fe3a5;

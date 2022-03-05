@@ -6,7 +6,11 @@
 }
 .title {
   padding-right: 8px;
+  pointer-events: none;
 }
 .complete .title {
   color: gray;
+}
+.check-block {
+  pointer-events: none;
 }
