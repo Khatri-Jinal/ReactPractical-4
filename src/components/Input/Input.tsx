@@ -61,7 +61,7 @@ function Input({ setTasks, toggleHandler }: InputProps) {
     return () => {
       document.removeEventListener("keydown", handleKey);
     };
-  }, [enteredTask, setTasks, toggleHandler]);
+  }, [toggleHandler]);
 
   return (
     <>

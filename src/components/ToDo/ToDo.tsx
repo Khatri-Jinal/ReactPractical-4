@@ -1,6 +1,6 @@
 import "./ToDo.css";
 import Input from "../Input/Input";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import DateAndDay, { formattedDate } from "../DateAndDay/DateAndDay";
 import TaskList, { TaskProps } from "../TaskList/TaskList";
 
